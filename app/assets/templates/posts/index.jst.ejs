@@ -1,0 +1,13 @@
+<h3> Hello </h3>
+<ul>
+  <% posts.each(function(post) { %>
+    <li>
+      <a href="#/posts/<%= post.id %>" data-post-id="<%= post.id %>">
+        <%= post.escape('title') %>
+      </a>
+      <button class='delete-post-button' data-post-id="<%= post.id %>">
+        Delete
+      </button>
+    </li>
+  <% }); %>
+</ul>

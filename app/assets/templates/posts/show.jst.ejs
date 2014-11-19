@@ -1,0 +1,7 @@
+<h2><%= post.escape('title') %></h2>
+<p>
+  <%= post.escape('body') %>
+</p>
+<button class='edit-post-button' data-post-id="<%= post.id %>">Edit</button>
+<button class='delete-post-button' data-post-id="<%= post.id %>">Delete</button>
+<a href="#" class="return">Return to Index</a>
