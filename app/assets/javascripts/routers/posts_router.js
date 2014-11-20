@@ -2,39 +2,38 @@ Journal.Routers.Posts = Backbone.Router.extend({
   routes: {
     "": "index",
     "posts/new": "renderForm",
-    "posts/:id": "show"
+    "posts/:id": "show",
+    "posts/:id/edit": "renderForm"
+  },
+  
+  initialize: function() {
+    this.collection = new Journal.Collections.Posts();
+    this.collection.fetch();
   },
   
   index: function() {
-    var posts = new Journal.Collections.Posts();
-    posts.fetch()
-    var indexView = new Journal.Views.PostsIndex({collection: posts});
-
+    var indexView = new Journal.Views.PostsIndex({collection: this.collection});
     $("body").html(indexView.render().$el)
   },
   
   show: function(id) {
-    var post = new Journal.Models.Post({id: id});
-    post.fetch();
-    var postView = new Journal.Views.PostsShow({ model: post });
+    this.model = this.getOrFetch(id);
+    var postView = new Journal.Views.PostsShow({ model: this.model });
     $('body').html(postView.render().$el);
   },
   
-  renderForm: function(postData){
-    var post = postData || new Journal.Models.Post({title: "", body: ""});
-    var formView = new Journal.Views.PostsForm({ model: post });
+  renderForm: function(id){
+    this.model = this.getOrFetch(id);
+    var formView = new Journal.Views.PostsForm({ model: this.model, collection: this.collection });
     $('body').html(formView.render().$el);
-  }
+  },
   
-  // getOrFetch: function(id) {
-  //   var posts = this.collection;
-  //   var post;
-  //   if(!(post = this.get(id))) {
-  //     post = new Journal.Models.Post({ id: id });
-  //     post.fetch({
-  //       success: function() { posts.add(post) }
-  //     });
-  //   }
-  //   return post;
-  // }
+  getOrFetch: function(id) {
+    var post = this.collection.get(id);
+    if (!post) {
+      post = new Journal.Models.Post({ id: id });
+      post.fetch();
+    }
+    return post;
+  }
 });

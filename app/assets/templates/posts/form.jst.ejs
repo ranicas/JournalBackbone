@@ -1,7 +1,9 @@
+<p class='errors'></p>
+<br>
 <form>
   <label for='title'>Title</label>
   <input type='text' id='title' name='post[title]' value="<%= post.escape('title') %>">
   <label for='body'>Body</label>
-  <textarea id='body' name='post[body]' value="<%= post.escape('body') %>"></textarea>
+  <textarea id='body' name='post[body]'><%= post.escape('body') %></textarea>
   <input type="submit" value="Submit">
 </form>
