@@ -1,6 +1,7 @@
 Journal.Routers.Posts = Backbone.Router.extend({
   routes: {
     "": "index",
+    "posts/new": "renderForm",
     "posts/:id": "show"
   },
   
@@ -18,6 +19,12 @@ Journal.Routers.Posts = Backbone.Router.extend({
     var postView = new Journal.Views.PostsShow({ model: post });
     $('body').html(postView.render().$el);
   },
+  
+  renderForm: function(postData){
+    var post = postData || new Journal.Models.Post({title: "", body: ""});
+    var formView = new Journal.Views.PostsForm({ model: post });
+    $('body').html(formView.render().$el);
+  }
   
   // getOrFetch: function(id) {
   //   var posts = this.collection;

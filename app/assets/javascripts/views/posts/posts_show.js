@@ -6,7 +6,7 @@ Journal.Views.PostsShow = Backbone.View.extend({
   },
   
   initialize: function() {
-    this.listenTo(this.model, "add change:title remove reset sync", this.render);
+    this.listenTo(this.model, "add change:title reset sync", this.render);
   },
   
   render: function() {
@@ -16,7 +16,10 @@ Journal.Views.PostsShow = Backbone.View.extend({
   },
   
   deletePost: function(event) {
-    this.model.destroy();   
+    this.model.destroy({
+      success: function(){
+        Backbone.history.navigate('#', { trigger: true })
+      }});
   }
   
 });
